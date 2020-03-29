@@ -1,23 +1,28 @@
 // Copyright 2018 Your Name <your_email>
-
+#include <cmath>
+#include <type_traits>
+#include <iostream>
 #ifndef INCLUDE_MATRIX_HPP_
 #define INCLUDE_MATRIX_HPP_
-template <class T>
+
+template <typename T>
 class Matrix {
+  static_assert(std:: is_arithmetic<T>::value, "Non-arithmetic type");
   int n;
   int m;
   T** M;
 
  public:
   Matrix() {
-    n = m = 0;
+    n = 0;
+    m = 0;
     M = nullptr;
   }
 
-  Matrix(int size n, int size m) {
-    this->n = n;
-    this->m = m;
-    M = (T**)new T[n];
+  Matrix(int a, int b) {
+    n = a;
+    m = b;
+    M = (T**)new T*[n];
     for (int i = 0; i < n; i++) {
       M[i] = (T*)new T[m];
     }
@@ -28,10 +33,10 @@ class Matrix {
     }
   }
 
-  Matrix(const& Matrix C) {
+  Matrix(const Matrix& C) {
     n = C.n;
     m = C.m;
-    M = (T**)new T[n];
+    M = (T**)new T*[n];
     for (int i = 0; i < n; i++) {
       M[i] = (T*)new T[m];
     }
@@ -42,11 +47,10 @@ class Matrix {
     }
   }
 
- 
-  Matrix& operator =(const& Matrix R) {
+  Matrix& operator=(const Matrix& R) {
     n = R.n;
     m = R.m;
-    M = (T**)new T[n];
+    M = (T**)new T*[n];
     for (int i = 0; i < n; i++) {
       M[i] = (T*)new T[m];
     }
@@ -55,53 +59,147 @@ class Matrix {
         M[i][j] = R.M[i][j];
       }
     }
-    return R;
+    return *this;
   }
 
-  Matrix& operator+(Matrix& M) {
-    if (m != M.m || n != M.n) 
-        return Matrix();
-    Matrix M1(m, n);
-    for (int i = 0; i < m; i++) {
-      for (int j = 0; j < n; j++) {
-        M1.p[i][j] = M.p[i][j] + p[i][j];
+  Matrix& operator+(Matrix& M1) const {
+    if (n != M1.n || m != M1.m) {
+      Matrix* Zero = new Matrix();
+      return *Zero;
+    }
+    Matrix* M2 = new Matrix(n, m);
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < m; j++) {
+        M2->M[i][j] = M[i][j] + M1.M[i][j];
       };
     };
-    return M1;
+    return *M2;
   }
 
-  Matrix operator-(Matrix& M) {
-    if (m != M.m || n != M.n) 
-        return Matrix();
-    Matrix M1(m, n);
-    for (int i = 0; i < m; i++) {
-      for (int j = 0; j < n; j++) {
-        M1.p[i][j] = M.p[i][j] - p[i][j];
-      }
+  Matrix& operator-(Matrix& M1) const {
+    if (n != M1.n || m != M1.m) {
+      Matrix* Zero = new Matrix();
+      return *Zero;
     }
-    return M1;
-  }
-
-  Matrix operator*(Matrix& M) { 
-      if (m != M.n) {
-      return Matrix();
-    }
-    Matrix Mult;
-    Mult.n = n;
-    Mult.m = M.m;
-    for (int i = 0; i < Mult.n; i++) {
-      for (int j = 0; j < n; j++) {
-        for (int k =0; k < )
-      }
-    }
-  }
-
-  ~Matrix() {
+    Matrix* M2 = new Matrix(n, m);
     for (int i = 0; i < n; i++) {
-      delete M[i];
+      for (int j = 0; j < m; j++) {
+        M2->M[i][j] = M[i][j] - M1.M[i][j];
+      }
     }
-    delete[] M;
+    return *M2;
   }
+
+  Matrix& operator*(Matrix& M1) const {
+    if (m != M1.n) {
+      Matrix* Zero = new Matrix();
+      return *Zero;
+    }
+    Matrix* Mult = new Matrix(n, M1.m);
+    for (int i = 0; i < Mult->n; i++) {
+      for (int j = 0; j < Mult->m; j++) {
+        for (int k = 0; k < m; k++) {
+          Mult->M[i][j] += M[i][k] * M1.M[k][j];
+        }
+      }
+    }
+    return *Mult;
+  }
+
+  Matrix& Inverse() const {
+    Matrix* A = new Matrix(n, 2 * n);
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        A->M[i][j] = M[i][j];
+      }
+    }
+    for (int i = 0; i < n; i++) {
+      A->M[i][n + i] = 1;
+    }
+
+    for (int i = 0; i < n; i++) {
+      double maxEl = abs(A->M[i][i]);
+      int maxRow = i;
+      for (int k = i + 1; k < n; k++) {
+        if (abs(A->M[k][i]) > maxEl) {
+          maxEl = A->M[k][i];
+          maxRow = k;
+        }
+      }
+
+      for (int k = i; k < 2 * n; k++) {
+        double tmp = A->M[maxRow][k];
+        A->M[maxRow][k] = A->M[i][k];
+        A->M[i][k] = tmp;
+      }
+
+      for (int k = i + 1; k < n; k++) {
+        double c = -A->M[k][i] / A->M[i][i];
+        for (int j = i; j < 2 * n; j++) {
+          if (i == j) {
+            A->M[k][j] = 0;
+          } else {
+            A->M[k][j] += c * A->M[i][j];
+          }
+        }
+      }
+    }
+
+    for (int i = n - 1; i >= 0; i--) {
+      for (int k = n; k < 2 * n; k++) {
+        A->M[i][k] /= A->M[i][i];
+      }
+      for (int rowMod = i - 1; rowMod >= 0; rowMod--) {
+        for (int columMod = n; columMod < 2 * n; columMod++) {
+          A->M[rowMod][columMod] -= A->M[i][columMod] * A->M[rowMod][i];
+        }
+      }
+    }
+    Matrix* Inv = new Matrix(n, n);
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        Inv->M[i][j] = A->M[i][j + n];
+      }
+    }
+    delete A;
+    return *Inv;
+  }
+
+
+   T* operator[](int index) const { return M[index]; }
+
+  int get_rows() const { return n; }
+
+  int get_columns() const { return m; }
+
+    bool operator==(const Matrix<T>& op2) const {
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+          if (M[i][j] == op2.M[i][j]) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+    }
+
+    bool operator!=(const Matrix<T>& op2) const {
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+          if (M[i][j] != op2.M[i][j]) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+    }
+
+    ~Matrix() {
+      for (int i = 0; i < n; i++) delete[] M[i];
+      delete[] M;
+    }
 };
 
-#endif // INCLUDE_MATRIX_HPP_
+#endif  // INCLUDE_MATRIX_HPP_

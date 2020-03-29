@@ -1,0 +1,5 @@
+D:/Github/LR4_2/out/build/x64-Debug/CMakeFiles/tests.dir
+D:/Github/LR4_2/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+D:/Github/LR4_2/out/build/x64-Debug/CMakeFiles/main.dir
+D:/Github/LR4_2/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+D:/Github/LR4_2/out/build/x64-Debug/CMakeFiles/test.dir

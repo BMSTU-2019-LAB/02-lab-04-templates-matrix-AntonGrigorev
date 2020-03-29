@@ -1,0 +1,11 @@
+# ninja log v5
+0	751	607185090	CMakeFiles/main.dir/sources/main.cpp.obj	b733100842f63dde
+779	1053	607185090	main.exe	468d3c312ba61430
+0	613	607196786	CMakeFiles/tests.dir/tests/matrix_unittests.cpp.obj	547d9ba3936afd6b
+647	983	607196787	tests.exe	5da7eac00f710cad
+0	737	607201385	CMakeFiles/main.dir/sources/main.cpp.obj	b733100842f63dde
+768	910	607201385	main.exe	468d3c312ba61430
+0	342	607201757	CMakeFiles/main.dir/sources/main.cpp.obj	b733100842f63dde
+352	453	607201757	main.exe	468d3c312ba61430
+0	465	607201879	CMakeFiles/main.dir/sources/main.cpp.obj	b733100842f63dde
+488	595	607201879	main.exe	468d3c312ba61430
