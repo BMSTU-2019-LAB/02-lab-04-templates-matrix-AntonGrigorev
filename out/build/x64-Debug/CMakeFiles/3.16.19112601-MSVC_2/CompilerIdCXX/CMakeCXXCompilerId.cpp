@@ -1,3 +1,4 @@
+// Copyright 2018 Your Name <your_email>
 /* This source file must have a .cpp extension so that all C++ compilers
    recognize the extension without flags.  Borland does not know .cxx for
    example.  */
