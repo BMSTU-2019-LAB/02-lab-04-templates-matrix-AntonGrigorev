@@ -64,82 +64,82 @@ class Matrix {
 
   Matrix& operator+(Matrix& M1) const {
     if (n != M1.n || m != M1.m) {
-      Matrix* Zero = new Matrix();
-      return *Zero;
+      Matrix Zero();
+      return Zero;
     }
-    Matrix* M2 = new Matrix(n, m);
+    Matrix M2 (n, m);
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        M2->M[i][j] = M[i][j] + M1.M[i][j];
+        M2.M[i][j] = M[i][j] + M1.M[i][j];
       }
     }
-    return *M2;
+    return M2;
   }
 
   Matrix& operator-(Matrix& M1) const {
     if (n != M1.n || m != M1.m) {
-      Matrix* Zero = new Matrix();
-      return *Zero;
+      Matrix Zero();
+      return Zero;
     }
-    Matrix* M2 = new Matrix(n, m);
+    Matrix M2(n, m);
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        M2->M[i][j] = M[i][j] - M1.M[i][j];
+        M2.M[i][j] = M[i][j] - M1.M[i][j];
       }
     }
-    return *M2;
+    return M2;
   }
 
   Matrix& operator*(Matrix& M1) const {
     if (m != M1.n) {
-      Matrix* Zero = new Matrix();
-      return *Zero;
+      Matrix Zero();
+      return Zero;
     }
-    Matrix* Mult = new Matrix(n, M1.m);
-    for (int i = 0; i < Mult->n; i++) {
-      for (int j = 0; j < Mult->m; j++) {
+    Matrix Mult(n, M1.m);
+    for (int i = 0; i < Mult.n; i++) {
+      for (int j = 0; j < Mult.m; j++) {
         for (int k = 0; k < m; k++) {
-          Mult->M[i][j] += M[i][k] * M1.M[k][j];
+          Mult.M[i][j] += M[i][k] * M1.M[k][j];
         }
       }
     }
-    return *Mult;
+    return Mult;
   }
 
   Matrix& Inverse() const {
-    Matrix* A = new Matrix(n, 2 * n);
+    Matrix A (n, 2 * n);
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
-        A->M[i][j] = M[i][j];
+        A.M[i][j] = M[i][j];
       }
     }
     for (int i = 0; i < n; i++) {
-      A->M[i][n + i] = 1;
+      A.M[i][n + i] = 1;
     }
 
     for (int i = 0; i < n; i++) {
-      double maxEl = abs(A->M[i][i]);
+      double maxEl = abs(A.M[i][i]);
       int maxRow = i;
       for (int k = i + 1; k < n; k++) {
-        if (abs(A->M[k][i]) > maxEl) {
-          maxEl = A->M[k][i];
+        if (abs(A.M[k][i]) > maxEl) {
+          maxEl = A.M[k][i];
           maxRow = k;
         }
       }
 
       for (int k = i; k < 2 * n; k++) {
-        double tmp = A->M[maxRow][k];
-        A->M[maxRow][k] = A->M[i][k];
-        A->M[i][k] = tmp;
+        double tmp = A.M[maxRow][k];
+        A.M[maxRow][k] = A.M[i][k];
+        A.M[i][k] = tmp;
       }
 
       for (int k = i + 1; k < n; k++) {
-        double c = -A->M[k][i] / A->M[i][i];
+        double c = -A.M[k][i] / A.M[i][i];
         for (int j = i; j < 2 * n; j++) {
           if (i == j) {
-            A->M[k][j] = 0;
+            A.M[k][j] = 0;
           } else {
-            A->M[k][j] += c * A->M[i][j];
+            A.M[k][j] += c * A.M[i][j];
           }
         }
       }
@@ -147,23 +147,23 @@ class Matrix {
 
     for (int i = n - 1; i >= 0; i--) {
       for (int k = n; k < 2 * n; k++) {
-        A->M[i][k] /= A->M[i][i];
+        A.M[i][k] /= A.M[i][i];
       }
       for (int rowMod = i - 1; rowMod >= 0; rowMod--) {
         for (int columMod = n; columMod < 2 * n; columMod++) {
-          A->M[rowMod][columMod] -= A->M[i][columMod] * A->M[rowMod][i];
+          A.M[rowMod][columMod] -= A.M[i][columMod] * A.M[rowMod][i];
         }
       }
     }
 
-    Matrix* Inv = new Matrix(n, n);
+    Matrix Inv(n, n);
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
-        Inv->M[i][j] = A->M[i][j + n];
+        Inv.M[i][j] = A.M[i][j + n];
       }
     }
     delete A;
-    return *Inv;
+    return Inv;
   }
 
 
