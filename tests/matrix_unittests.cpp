@@ -108,7 +108,7 @@ TEST(Matrix, Mult) {
   m[2][1] = 1;
 
   Matrix<char> c(2, 2);
-  
+
   c[0][0] = 1;
   c[0][1] = 0;
   c[1][0] = 1;
@@ -117,7 +117,7 @@ TEST(Matrix, Mult) {
 
   ASSERT_EQ(s.get_rows(), 3);
   ASSERT_EQ(s.get_columns(), 2);
- 
+
   EXPECT_EQ(s[0][0], 2);
   EXPECT_EQ(s[1][0], 2);
   EXPECT_EQ(s[2][0], 2);

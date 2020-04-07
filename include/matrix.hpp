@@ -22,9 +22,9 @@ class Matrix {
   Matrix(int a, int b) {
     n = a;
     m = b;
-    M = (T**)new T*[n];
+    M = reinterpret_cast<T**>(new T*[n]);
     for (int i = 0; i < n; i++) {
-      M[i] = (T*)new T[m];
+      M[i] = reinterpret_cast<T*>(new T[m]);
     }
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
@@ -36,9 +36,9 @@ class Matrix {
   Matrix(const Matrix& C) {
     n = C.n;
     m = C.m;
-    M = (T**)new T*[n];
+    M = reinterpret_cast<T**>(new T*[n]);
     for (int i = 0; i < n; i++) {
-      M[i] = (T*)new T[m];
+      M[i] = reinterpret_cast<T*>(new T[m]);
     }
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
@@ -50,9 +50,9 @@ class Matrix {
   Matrix& operator=(const Matrix& R) {
     n = R.n;
     m = R.m;
-    M = (T**)new T*[n];
+    M = reinterpret_cast<T**>(new T*[n]);
     for (int i = 0; i < n; i++) {
-      M[i] = (T*)new T[m];
+      M[i] = reinterpret_cast<T*>(new T[m]);
     }
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
@@ -71,8 +71,8 @@ class Matrix {
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
         M2->M[i][j] = M[i][j] + M1.M[i][j];
-      };
-    };
+      }
+    }
     return *M2;
   }
 
@@ -155,6 +155,7 @@ class Matrix {
         }
       }
     }
+
     Matrix* Inv = new Matrix(n, n);
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
