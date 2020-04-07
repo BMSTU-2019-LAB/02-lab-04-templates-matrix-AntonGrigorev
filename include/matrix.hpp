@@ -63,10 +63,6 @@ class Matrix {
   }
 
   Matrix& operator+(Matrix& M1) const {
-    if (n != M1.n || m != M1.m) {
-      Matrix Zero();
-      return Zero;
-    }
     Matrix M2 (n, m);
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
@@ -77,10 +73,6 @@ class Matrix {
   }
 
   Matrix& operator-(Matrix& M1) const {
-    if (n != M1.n || m != M1.m) {
-      Matrix Zero();
-      return Zero;
-    }
     Matrix M2(n, m);
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
@@ -91,10 +83,6 @@ class Matrix {
   }
 
   Matrix& operator*(Matrix& M1) const {
-    if (m != M1.n) {
-      Matrix Zero();
-      return Zero;
-    }
     Matrix Mult(n, M1.m);
     for (int i = 0; i < Mult.n; i++) {
       for (int j = 0; j < Mult.m; j++) {
@@ -162,7 +150,6 @@ class Matrix {
         Inv.M[i][j] = A.M[i][j + n];
       }
     }
-    delete A;
     return Inv;
   }
 
