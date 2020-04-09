@@ -103,7 +103,7 @@ class Matrix {
   }
 
   Matrix Inverse() const {
-    Matrix<T> A (n, 2 * n);
+    Matrix<T> A(n, 2 * n);
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
         A.M[i][j] = M[i][j];
