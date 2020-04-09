@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GtaTestDurations xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Executable>D:\Github\LR4_2\out\build\x64-Debug\tests.exe</Executable>
+  <TestDurations>
+    <TestDuration Test="Matrix.Init" Duration="1" />
+    <TestDuration Test="Matrix.CopyAssign" Duration="1" />
+    <TestDuration Test="Matrix.Add" Duration="1" />
+    <TestDuration Test="Matrix.AddEmpty" Duration="1" />
+    <TestDuration Test="Matrix.Sub" Duration="1" />
+    <TestDuration Test="Matrix.SubEmpty" Duration="1" />
+    <TestDuration Test="Matrix.Mult" Duration="1" />
+    <TestDuration Test="Matrix.Inverse" Duration="1" />
+  </TestDurations>
+</GtaTestDurations>

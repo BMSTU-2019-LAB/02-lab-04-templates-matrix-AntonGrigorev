@@ -26,7 +26,7 @@ TEST(Matrix, CopyAssign) {
   m[1][0] = 3;
   m[1][1] = 4;
 
-  //EXPECT_NE(m, copy);
+  EXPECT_NE(m, copy);
 
   copy = m;
   EXPECT_EQ(m, copy);

@@ -22,9 +22,9 @@ class Matrix {
   Matrix(int a, int b) {
     n = a;
     m = b;
-    M = reinterpret_cast<T**>(new T*[n]);
+    M = new T*[n];
     for (int i = 0; i < n; i++) {
-      M[i] = reinterpret_cast<T*>(new T[m]);
+      M[i] = new T[m];
     }
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
@@ -36,54 +36,62 @@ class Matrix {
   Matrix(const Matrix& C) {
     n = C.n;
     m = C.m;
-    M = reinterpret_cast<T**>(new T*[n]);
+    M = new T*[n];
     for (int i = 0; i < n; i++) {
-      M[i] = reinterpret_cast<T*>(new T[m]);
+      M[i] = new T[m];
     }
     for (int i = 0; i < n; i++) {
-      for (int j = 0; j < m; j++) {
-        M[i][j] = C.M[i][j];
-      }
+       for (int j = 0; j < m; j++) {
+         M[i][j] = C.M[i][j];
+       }
     }
   }
 
-  Matrix& operator=(const Matrix& R) {
+  Matrix operator=(const Matrix& R) {
     n = R.n;
     m = R.m;
-    M = reinterpret_cast<T**>(new T*[n]);
-    for (int i = 0; i < n; i++) {
-      M[i] = reinterpret_cast<T*>(new T[m]);
-    }
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < m; j++) {
+    for (int i = 0; i < R.n; i++) {
+      for (int j = 0; j < R.m; j++) {
         M[i][j] = R.M[i][j];
       }
     }
     return *this;
   }
 
-  Matrix& operator+(Matrix& M1) const {
-    Matrix M2 (n, m);
+  Matrix operator+(const Matrix& M1) const {
+    if (n != M1.n || m != M1.m) {
+      Matrix<T> Zero;
+      return Zero;
+    }
+    Matrix<T> add(n, m);
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        M2.M[i][j] = M[i][j] + M1.M[i][j];
+        add.M[i][j] = M[i][j] + M1.M[i][j];
       }
     }
-    return M2;
+    return add;
   }
 
-  Matrix& operator-(Matrix& M1) const {
-    Matrix M2(n, m);
+  Matrix operator-(Matrix& M1) const {
+    if (n != M1.n || m != M1.m) {
+      Matrix<T> Zero;
+      return Zero;
+    }
+    Matrix<T> sub(n, m);
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        M2.M[i][j] = M[i][j] - M1.M[i][j];
+        sub.M[i][j] = M[i][j] - M1.M[i][j];
       }
     }
-    return M2;
+    return sub;
   }
 
-  Matrix& operator*(Matrix& M1) const {
-    Matrix Mult(n, M1.m);
+  Matrix operator*(Matrix& M1) const {
+    if (m != M1.n) {
+      Matrix<T> Zero;
+      return Zero;
+    }
+    Matrix<T> Mult(n, M1.m);
     for (int i = 0; i < Mult.n; i++) {
       for (int j = 0; j < Mult.m; j++) {
         for (int k = 0; k < m; k++) {
@@ -94,8 +102,8 @@ class Matrix {
     return Mult;
   }
 
-  Matrix& Inverse() const {
-    Matrix A (n, 2 * n);
+  Matrix Inverse() const {
+    Matrix<T> A (n, 2 * n);
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
         A.M[i][j] = M[i][j];
@@ -144,7 +152,7 @@ class Matrix {
       }
     }
 
-    Matrix Inv(n, n);
+    Matrix<T> Inv(n, n);
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
         Inv.M[i][j] = A.M[i][j + n];
@@ -153,41 +161,40 @@ class Matrix {
     return Inv;
   }
 
-
    T* operator[](int index) const { return M[index]; }
 
   int get_rows() const { return n; }
 
   int get_columns() const { return m; }
 
-    bool operator==(const Matrix<T>& op2) const {
-      for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-          if (M[i][j] == op2.M[i][j]) {
-            return true;
-          } else {
-            return false;
-          }
+  bool operator==(const Matrix<T>& op2) const {
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < m; j++) {
+        if (M[i][j] == op2.M[i][j]) {
+          return true;
+        } else {
+          return false;
         }
       }
     }
+  }
 
-    bool operator!=(const Matrix<T>& op2) const {
-      for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-          if (M[i][j] != op2.M[i][j]) {
-            return true;
-          } else {
-            return false;
-          }
+  bool operator!=(const Matrix<T>& op2) const {
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < m; j++) {
+        if (M[i][j] != op2.M[i][j]) {
+          return true;
+        } else {
+          return false;
         }
       }
     }
+  }
 
-    ~Matrix() {
-      for (int i = 0; i < n; i++) delete[] M[i];
-      delete[] M;
-    }
+  ~Matrix() {
+    for (int i = 0; i < n; i++) delete[] M[i];
+    delete[] M;
+  }
 };
 
 #endif  // INCLUDE_MATRIX_HPP_
