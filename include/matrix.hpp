@@ -161,7 +161,16 @@ class Matrix {
     return Inv;
   }
 
-   T* operator[](int index) const { return M[index]; }
+  void print() {
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        std::cout << M[i][j] << " ";
+      }
+      std::cout << std::endl;
+    }
+  }
+
+  T* operator[](int index) const { return M[index]; }
 
   int get_rows() const { return n; }
 
@@ -170,25 +179,28 @@ class Matrix {
   bool operator==(const Matrix<T>& op2) const {
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        if (M[i][j] == op2.M[i][j]) {
-          return true;
+        if (std::is_floating_point<T>::value) {
+              if (std::abs(M[i][j] - op2.M[i][j]) > FLT_EPSILON)
+                return false;
         } else {
-          return false;
+          if (M[i][j] != op2.M[i][j]) {
+            return false;
+          }
         }
       }
     }
+    return true;
   }
 
   bool operator!=(const Matrix<T>& op2) const {
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        if (M[i][j] != op2.M[i][j]) {
-          return true;
-        } else {
+        if (M[i][j] == op2.M[i][j]) {
           return false;
         }
       }
     }
+    return true;
   }
 
   ~Matrix() {
