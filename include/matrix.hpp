@@ -2,9 +2,9 @@
 #include <cmath>
 #include <type_traits>
 #include <iostream>
-#define FLT_EPSILON 1.19209290E-07F
 #ifndef INCLUDE_MATRIX_HPP_
 #define INCLUDE_MATRIX_HPP_
+#define FLT_EPSILON 1.19209290E-07F
 
 template <typename T>
 class Matrix {

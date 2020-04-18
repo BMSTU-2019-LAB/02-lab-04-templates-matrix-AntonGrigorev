@@ -30,3 +30,10 @@
 519	661	608943588	main.exe	468d3c312ba61430
 0	707	608943588	CMakeFiles/tests.dir/tests/matrix_unittests.cpp.obj	547d9ba3936afd6b
 741	926	608943588	tests.exe	5da7eac00f710cad
+0	7	0	clean	b049eaf95b698d8c
+4	496	608943915	CMakeFiles/main.dir/sources/main.cpp.obj	b733100842f63dde
+0	6	0	clean	b049eaf95b698d8c
+2	376	608943958	CMakeFiles/main.dir/sources/main.cpp.obj	b733100842f63dde
+386	512	608943958	main.exe	468d3c312ba61430
+0	719	608943958	CMakeFiles/tests.dir/tests/matrix_unittests.cpp.obj	547d9ba3936afd6b
+755	916	608943958	tests.exe	5da7eac00f710cad
