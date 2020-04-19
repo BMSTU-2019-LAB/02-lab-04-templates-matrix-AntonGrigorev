@@ -4,6 +4,9 @@
 #include <iostream>
 #ifndef INCLUDE_MATRIX_HPP_
 #define INCLUDE_MATRIX_HPP_
+#ifndef FLT_EPSILON
+#define FLT_EPSILON 1.19209290E-07F
+#endif
 
 template <typename T>
 class Matrix {
@@ -186,6 +189,7 @@ class Matrix {
           if (M[i][j] != op2.M[i][j]) {
             return false;
           }
+
         }
       }
     }
