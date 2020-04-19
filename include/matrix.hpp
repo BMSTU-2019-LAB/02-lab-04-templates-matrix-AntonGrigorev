@@ -4,7 +4,6 @@
 #include <iostream>
 #ifndef INCLUDE_MATRIX_HPP_
 #define INCLUDE_MATRIX_HPP_
-#define FLT_EPSILON
 
 template <typename T>
 class Matrix {
