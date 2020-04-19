@@ -189,7 +189,6 @@ class Matrix {
           if (M[i][j] != op2.M[i][j]) {
             return false;
           }
-
         }
       }
     }
