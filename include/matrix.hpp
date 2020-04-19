@@ -4,7 +4,7 @@
 #include <iostream>
 #ifndef INCLUDE_MATRIX_HPP_
 #define INCLUDE_MATRIX_HPP_
-#define FLT_EPSILON 1.19209290E-07F
+#define FLT_EPSILON
 
 template <typename T>
 class Matrix {
@@ -173,9 +173,9 @@ class Matrix {
 
   T* operator[](int index) const { return M[index]; }
 
-  int get_rows() const { return n; }
+  size_t get_rows() const { return n; }
 
-  int get_columns() const { return m; }
+  size_t get_columns() const { return m; }
 
   bool operator==(const Matrix<T>& op2) const {
     for (int i = 0; i < n; i++) {
